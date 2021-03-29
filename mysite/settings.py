@@ -11,11 +11,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
-
-import django_heroku
-import dj_database_url
-from decouple import config
+import environ
+env = environ.Env()
+environ.Env.read_env()
+# Initialise environment variablesenv = environ.Env()environ.Env.read_env()
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,10 +26,10 @@ TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-    # SECRET_KEY = '0x!b#(1*cd73w$&azzc6p+essg7v=g80ls#z&xcx*mpemx&@9$'
+SECRET_KEY = '0x!b#(1*cd73w$&azzc6p+essg7v=g80ls#z&xcx*mpemx&@9$'
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -135,6 +134,18 @@ DATABASES ={
     }
 }
 
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
+         'OPTIONS':{
+            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+}
+
+}
 
 
 # Password validation
@@ -170,11 +181,16 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+
+
+BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
 
@@ -189,4 +205,4 @@ EMAIL_USE_TLS =True
 
 
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

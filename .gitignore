@@ -1,8 +1,7 @@
 env
+.env
 vscode
 __pycache__
-Procfile
 ssh-gitkeys
 test-keypair-django
 test-keypair-django.pem
-currency-convertor
